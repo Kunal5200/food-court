@@ -1,9 +1,12 @@
 import { View, Text, StyleSheet, Image } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { COLORS } from "@/assets/utils/enum";
-import { TextInput } from "react-native-paper";
+import { Button, TextInput } from "react-native-paper";
+import { Link } from "expo-router";
 
 const Login = () => {
+  const [secureTextEntry, setSecureTextEntry] = useState<Boolean>(true);
+
   return (
     <View style={styles.container}>
       <View style={styles.upperBox}>
@@ -12,14 +15,59 @@ const Login = () => {
       </View>
       <View style={styles.lowerBox}>
         <Text style={styles.InputLabel}>Email</Text>
-        <TextInput label={"Email"} mode="outlined" style={styles.input} />
+        <TextInput
+          label={"Email"}
+          mode="outlined"
+          style={styles.input}
+          outlineStyle={{ borderRadius: 20 }}
+          underlineStyle={{ borderRadius: 20 }}
+          keyboardType="email-address"
+          activeOutlineColor={COLORS.PRIMARY}
+        />
         <Text style={styles.InputLabel}>Password</Text>
         <TextInput
           label={"Password"}
           mode="outlined"
-          secureTextEntry={true}
+          secureTextEntry={secureTextEntry ? true : false}
           style={styles.input}
+          outlineStyle={{ borderRadius: 20 }}
+          underlineStyle={{ borderRadius: 20 }}
+          activeOutlineColor={COLORS.PRIMARY}
+          right={
+            <TextInput.Icon
+              icon={secureTextEntry ? "eye" : "eye-off"}
+              onPress={() => setSecureTextEntry(!secureTextEntry)}
+            />
+          }
         />
+        <View
+          style={{
+            marginTop: 3,
+            flexDirection: "row",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Button mode="text" textColor={COLORS.PRIMARY}>
+            Forgot Password ?
+          </Button>
+        </View>
+        <Link href={"/Home"} style={{ width: "100%" }}>
+          <Button mode="contained" style={styles.submit_btn}>
+            Submit
+          </Button>
+        </Link>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Text style={{ fontSize: 18 }}>Don't have an account ?</Text>
+        <Button mode="text" textColor={COLORS.PRIMARY}>
+          <Link href={"/Signup"}>Sign Up</Link>
+        </Button>
       </View>
     </View>
   );
@@ -48,7 +96,7 @@ const styles = StyleSheet.create({
 
     flex: 2,
     position: "relative",
-    top: -100,
+    top: -50,
     borderRadius: 20,
   },
   text: {
@@ -68,11 +116,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   input: {
-    height: 50,
+    height: 55,
     width: "100%",
     marginTop: 10,
     fontSize: 18,
     color: COLORS.DARK,
-    borderRadius: 20,                                                         
+    // borderRadius: 30,
+  },
+  submit_btn: {
+    marginTop: 20,
+    height: 50,
+    width: "100%",
+    borderRadius: 30,
+    backgroundColor: COLORS.PRIMARY,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
