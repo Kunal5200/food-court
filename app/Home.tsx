@@ -1,54 +1,54 @@
 import { COLORS } from "@/assets/utils/enum";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { Badge, Button, Icon, TextInput } from "react-native-paper";
+import DishScreen from "./components/Dishes";
 import NameComponent from "./components/Name";
 
 const Home = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.homeHeader}>
-        <View style={styles.homeDelivery}>
-          <View style={styles.menu_btn}>
-            <Image source={require("../assets/images/icon/Menu.png")} />
+    <ScrollView>
+      <View style={styles.container}>
+        <View style={styles.homeHeader}>
+          <View style={styles.homeDelivery}>
+            <View style={styles.menu_btn}>
+              <Image source={require("../assets/images/icon/Menu.png")} />
+            </View>
+            <View>
+              <Text style={{ fontSize: 16, color: COLORS.PRIMARY }}>
+                Deliver to
+              </Text>
+              <Text style={{ fontSize: 16, color: COLORS.BLACK }}>
+                Duhai Ghaziabad
+              </Text>
+            </View>
           </View>
-          <View>
-            <Text style={{ fontSize: 16, color: COLORS.PRIMARY }}>
-              Deliver to
-            </Text>
-            <Text style={{ fontSize: 16, color: COLORS.BLACK }}>
-              Duhai Ghaziabad
-            </Text>
+          <View style={{ position: "relative" }}>
+            <Icon source={"cart"} size={30} />
+            <Badge style={{ position: "absolute", top: -10 }}>3</Badge>
           </View>
         </View>
-        <View style={{ position: "relative" }}>
-          <Icon source={"cart"} size={30} />
-          <Badge style={{ position: "absolute", top: -10 }}>3</Badge>
+        <View>
+          <NameComponent />
+        </View>
+        {/* <View style={{ paddingHorizontal: 20, marginTop: 20 }}>
+          <TextInput
+            left={<TextInput.Icon icon={"file-search"} />}
+            style={styles.searchbar}
+            outlineStyle={{ borderColor: "#000", borderRadius: 20 }}
+            mode="outlined"
+            label={"Search Dishes, Restaurants"}
+            activeOutlineColor={COLORS.PRIMARY}
+          />
+        </View> */}
+
+        <View style={{ paddingHorizontal: 20 }}>
+          {/* <Category /> */}
+          <DishScreen />
         </View>
       </View>
-      <View>
-        <NameComponent />
-      </View>
-      <View style={{ padding: 20 }}>
-        <TextInput
-          left={<TextInput.Icon icon={"find"} />}
-          style={styles.searchbar}
-          outlineStyle={{ borderColor: "#000", borderRadius: 20 }}
-          mode="outlined"
-          label={"Search Dishes, Restaurants"}
-          activeOutlineColor={COLORS.PRIMARY}
-        />
-      </View>
-      <View style={styles.flexContainer}>
-        <Text style={{ fontSize: 20, fontWeight: "500" }}>All Categories</Text>
-        <Button>
-          <View style={styles.buttonInnerContainer}>
-            <Text>See All</Text>
-            <Icon source={"chevron-right"} size={25} />
-          </View>
-        </Button>
-      </View>
-    </View>
+    </ScrollView>
   );
 };
 

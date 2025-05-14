@@ -2,61 +2,57 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import React, { useState } from "react";
 import { COLORS } from "@/assets/utils/enum";
 import { Button, TextInput } from "react-native-paper";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 
 const Login = () => {
-  const [secureTextEntry, setSecureTextEntry] = useState<Boolean>(true);
+  const [mobileNumber, setMobileNumber] = useState<string>("");
+  const [isValidMobile, setIsValidMobile] = useState<boolean>(true);
+  const router = useRouter();
+
+  
+  const handleMobileSubmit = () => {
+    if (mobileNumber.length === 10) {
+      router.push("/otp"); 
+    } else {
+      setIsValidMobile(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.upperBox}>
         <Text style={styles.text}>Log In</Text>
-        <Text style={styles.para}>Please sign in to your existing account</Text>
+        <Text style={styles.para}>Please sign in using your mobile number</Text>
       </View>
       <View style={styles.lowerBox}>
-        <Text style={styles.InputLabel}>Email</Text>
+        <Text style={styles.InputLabel}>Mobile Number</Text>
         <TextInput
-          label={"Email"}
+          label={"Mobile Number"}
           mode="outlined"
           style={styles.input}
           outlineStyle={{ borderRadius: 20 }}
           underlineStyle={{ borderRadius: 20 }}
-          keyboardType="email-address"
+          keyboardType="phone-pad"
           activeOutlineColor={COLORS.PRIMARY}
+          value={mobileNumber}
+          onChangeText={setMobileNumber}
+          error={!isValidMobile}
         />
-        <Text style={styles.InputLabel}>Password</Text>
-        <TextInput
-          label={"Password"}
-          mode="outlined"
-          secureTextEntry={secureTextEntry ? true : false}
-          style={styles.input}
-          outlineStyle={{ borderRadius: 20 }}
-          underlineStyle={{ borderRadius: 20 }}
-          activeOutlineColor={COLORS.PRIMARY}
-          right={
-            <TextInput.Icon
-              icon={secureTextEntry ? "eye" : "eye-off"}
-              onPress={() => setSecureTextEntry(!secureTextEntry)}
-            />
-          }
-        />
-        <View
-          style={{
-            marginTop: 3,
-            flexDirection: "row",
-            justifyContent: "flex-end",
-          }}
+        {!isValidMobile && (
+          <Text style={styles.errorText}>
+            Please enter a valid 10-digit mobile number
+          </Text>
+        )}
+
+        <Button
+          mode="contained"
+          onPress={handleMobileSubmit}
+          style={styles.submit_btn}
         >
-          <Button mode="text" textColor={COLORS.PRIMARY}>
-            Forgot Password ?
-          </Button>
-        </View>
-        <Link href={"/Home"} style={{ width: "100%" }}>
-          <Button mode="contained" style={styles.submit_btn}>
-            Submit
-          </Button>
-        </Link>
+          Submit
+        </Button>
       </View>
+
       <View
         style={{
           flexDirection: "row",
@@ -64,7 +60,7 @@ const Login = () => {
           justifyContent: "center",
         }}
       >
-        <Text style={{ fontSize: 18 }}>Don't have an account ?</Text>
+        <Text style={{ fontSize: 18 }}>Don't have an account? </Text>
         <Button mode="text" textColor={COLORS.PRIMARY}>
           <Link href={"/Signup"}>Sign Up</Link>
         </Button>
@@ -79,7 +75,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#ffffff",
     flex: 1,
-
     flexDirection: "column",
   },
   upperBox: {
@@ -91,9 +86,7 @@ const styles = StyleSheet.create({
   },
   lowerBox: {
     backgroundColor: COLORS.WHITE,
-
     padding: 16,
-
     flex: 2,
     position: "relative",
     top: -50,
@@ -102,6 +95,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#ffffff",
     fontSize: 45,
+    fontWeight: "bold",
   },
   para: {
     fontSize: 20,
@@ -121,7 +115,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 18,
     color: COLORS.DARK,
-    // borderRadius: 30,
   },
   submit_btn: {
     marginTop: 20,
@@ -129,8 +122,12 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 30,
     backgroundColor: COLORS.PRIMARY,
-    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 14,
+    marginTop: 5,
   },
 });

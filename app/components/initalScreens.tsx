@@ -1,7 +1,33 @@
-import { initialData } from "@/assets/data/InitialData";
 import React, { useState } from "react";
-import { View, Text, Dimensions, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  Image,
+  Platform,
+  StatusBar,
+} from "react-native";
 import Carousel from "react-native-reanimated-carousel";
+
+// Sample onboarding data (replace with your actual images and content)
+const initialData = [
+  {
+    title: "Welcome to Our App",
+    description: "Discover new features and enjoy a seamless experience.",
+    img: require("@/assets/images/slider/dish-1.jpg"),
+  },
+  {
+    title: "Stay Connected",
+    description: "Communicate and collaborate with others effortlessly.",
+    img: require("@/assets/images/slider/dish-2.jpg"),
+  },
+  {
+    title: "Achieve More",
+    description: "Boost your productivity and get things done faster.",
+    img: require("@/assets/images/slider/dish-3.jpg"),
+  },
+];
 
 const { width } = Dimensions.get("window");
 
@@ -10,6 +36,8 @@ export default function ImageCarousel() {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fefefe" />
+
       <Carousel
         width={width}
         height={500}
@@ -17,7 +45,11 @@ export default function ImageCarousel() {
         onSnapToItem={(index) => setCurrentIndex(index)}
         renderItem={({ item }) => (
           <View style={styles.card}>
-            <Image source={item.img} style={styles.image} resizeMode="cover" />
+            <Image
+              source={item.img}
+              style={styles.image}
+              resizeMode="contain"
+            />
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.description}>{item.description}</Text>
           </View>
@@ -26,12 +58,17 @@ export default function ImageCarousel() {
         autoPlay
       />
 
-      {/* Pagination Dots */}
       <View style={styles.paginationContainer}>
         {initialData.map((_, index) => (
           <View
             key={index}
-            style={[styles.dot, { opacity: currentIndex === index ? 1 : 0.3 }]}
+            style={[
+              styles.dot,
+              {
+                backgroundColor: currentIndex === index ? "#FFA500" : "#ccc",
+                width: currentIndex === index ? 18 : 10,
+              },
+            ]}
           />
         ))}
       </View>
@@ -41,44 +78,52 @@ export default function ImageCarousel() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 120,
-    backgroundColor: "#fff",
+    flex: 1,
+    paddingTop: 100,
+    backgroundColor: "#fefefe",
   },
   card: {
-    borderRadius: 15,
-    overflow: "hidden",
     alignItems: "center",
+    paddingHorizontal: 24,
+    paddingTop: 30,
+    paddingBottom: 40,
+    backgroundColor: "#ffffff",
+    borderRadius: 20,
+    marginHorizontal: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.1,
+    shadowRadius: 20,
+    elevation: Platform.OS === "android" ? 6 : 0,
   },
   image: {
-    width: 350,
-    height: 292,
-    objectFit: "contain",
-    borderRadius: 8,
+    width: 320,
+    height: 280,
+    marginBottom: 24,
+    borderRadius: 16,
   },
   title: {
-    fontSize: 30,
-    marginTop: 40,
-    color: "#333",
-    fontWeight: 600,
+    fontSize: 28,
+    color: "#222",
+    fontWeight: "700",
+    textAlign: "center",
+    marginBottom: 12,
   },
   description: {
-    fontSize: 18,
-    // width:0
+    fontSize: 16,
+    color: "#555",
     textAlign: "center",
-    marginTop: 20,
+    paddingHorizontal: 10,
+    lineHeight: 22,
   },
   paginationContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 100,
-    backgroundColor: "#fff",
-    paddingBottom: 50,
+    marginTop: 32,
   },
   dot: {
-    width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: "#FFA500",
     marginHorizontal: 5,
   },
 });
