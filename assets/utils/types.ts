@@ -21,13 +21,3 @@ export interface RestaurantCardProps {
   id: string;
   category: string;
 }
-
-export interface DISHES_CARD {
-  dishes: {
-    id: string;
-    name: string;
-    description: string;
-    price: string;
-    image: string;
-  }[];
-}

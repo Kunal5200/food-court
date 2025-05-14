@@ -2,15 +2,12 @@ import { nonVegDishes } from "@/assets/data/nonVegDishes";
 import { vegDishes } from "@/assets/data/vegDishes";
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  FlatList,
-  Dimensions,
+    Dimensions,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
 import DishesCard from "./DishesCard";
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
